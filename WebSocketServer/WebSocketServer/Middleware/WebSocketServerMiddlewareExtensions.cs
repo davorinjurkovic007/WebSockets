@@ -8,5 +8,11 @@ namespace WebSocketServer.Middleware
         {
             return builder.UseMiddleware<WebSocketServerMiddleware>();
         }
+
+        public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
+        {
+            services.AddSingleton<WebSocketServerConnectionManager>();
+            return services;
+        }
     }
 }

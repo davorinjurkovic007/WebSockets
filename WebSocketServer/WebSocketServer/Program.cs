@@ -3,6 +3,8 @@ using WebSocketServer.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddWebSocketManager();
+
 var app = builder.Build();
 
 app.UseWebSockets();
