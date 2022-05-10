@@ -82,13 +82,14 @@
 
     };
 
-    closeButton.onclick = function () {
-        if (!socket || socket.readyState !== WebSocket.OPEN) {
-            alert("socket not connected");
+    closeButton.onclick = function()
+    {
+        if(!socket || socket.readyState !== WebSocket.OPEN)
+        {
+            alert("Socket not connected");
         }
         socket.close(1000, "Closing from client");
     };
-
 
     sendButton.onclick = function () {
         if (!socket || socket.readyState !== WebSocket.OPEN) {
