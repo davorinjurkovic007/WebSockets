@@ -1,15 +1,21 @@
+using SignalRServer.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
-//// Add services to the container.
-
-//builder.Services.AddControllers();
+builder.Services.AddCors();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors(builder => builder
+    .WithOrigins("null")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials());
 
-//app.UseAuthorization();
-
-//app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chatHub");
+});
 
 app.Run();
