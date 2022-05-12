@@ -13,9 +13,11 @@ app.UseCors(builder => builder
     .AllowAnyMethod()
     .AllowCredentials());
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<ChatHub>("/chatHub");
-});
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapHub<ChatHub>("/chatHub");
+//});
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
