@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 //.AllowAnyMethod()
 //.AllowAnyHeader()));
 
-builder.Services.AddCors(options => options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins("http://localhost:8080")));
+var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
+
+builder.Services.AddCors(options => options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins(allowedOrigins)));
 
 
 builder.Services.AddControllers();
