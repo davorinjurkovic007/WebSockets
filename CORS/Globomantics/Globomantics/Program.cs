@@ -2,9 +2,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddCors(options => options.AddPolicy("AllowEverything", builder => builder.AllowAnyOrigin()
-                                                                                            .AllowAnyMethod()
-                                                                                            .AllowAnyHeader()));
+//builder.Services.AddCors(options => options.AddPolicy("AllowEverything", builder => builder.AllowAnyOrigin()
+//.AllowAnyMethod()
+//.AllowAnyHeader()));
+
+builder.Services.AddCors(options => options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins("http://localhost:8080")));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -20,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowEverything");
+app.UseCors("GlobomaticsInternal");
 
 app.UseHttpsRedirection();
 
