@@ -8,7 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
 
-builder.Services.AddCors(options => options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins(allowedOrigins)));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins(allowedOrigins).AllowCredentials());
+    options.AddPolicy("PublicAPI", builder => builder.AllowAnyOrigin()
+                                                    .WithMethods("Get")
+                                                    .WithHeaders("Content-Type"));
+});
 
 
 builder.Services.AddControllers();
