@@ -10,12 +10,24 @@ var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.S
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins(allowedOrigins).AllowCredentials());
+    //options.AddPolicy("GlobomaticsInternal", builder => builder.WithOrigins(allowedOrigins).AllowCredentials());
+    options.AddPolicy("GlobomaticsInternal", builder =>
+    {
+        //builder.WithOrigins(allowedOrigins).AllowAnyHeader().SetPreflightMaxAge(TimeSpan.FromMinutes(12));
+        // wildcard subdomain CORS access to our API
+        //builder.WithOrigins("http://*.globomanticshshop.com");
+        //builder.SetIsOriginAllowedToAllowWildcardSubdomains();
+        //
+
+        //builder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
+
+        builder.SetIsOriginAllowed(IsOriginAllowed);
+    });
+    
     options.AddPolicy("PublicAPI", builder => builder.AllowAnyOrigin()
                                                     .WithMethods("Get")
                                                     .WithHeaders("Content-Type"));
 });
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,3 +52,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static bool IsOriginAllowed(string host)
+{
+    var corsOriginAllowed = new[] { "globomantic" };
+    return corsOriginAllowed.Any(origin => host.Contains(origin));
+}
