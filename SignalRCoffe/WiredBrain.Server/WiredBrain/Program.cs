@@ -11,6 +11,8 @@ builder.Services.AddSignalR();
 
 builder.Services.AddControllers();
 
+builder.Services.AddMvc();
+
 var app = builder.Build();
 
 app.UseCors(builder => builder
@@ -21,9 +23,11 @@ app.UseCors(builder => builder
 
 app.UseAuthorization();
 
-app.MapHub<CoffeeHub>("/caffeHub");
+app.MapHub<CoffeeHub>("/coffeHub");
 
 app.MapControllers();
+
+app.UseStaticFiles();
 
 app.Run();
 
