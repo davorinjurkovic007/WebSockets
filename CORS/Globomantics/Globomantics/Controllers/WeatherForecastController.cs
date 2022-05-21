@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Dapr.Client;
+using System.Text.Json;
 
 namespace Globomantics.Controllers
 {
@@ -21,6 +23,15 @@ namespace Globomantics.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+
+            using var client = new DaprClientBuilder().Build();
+            var requests = new List<StateTransactionRequest>()
+                {
+                    new StateTransactionRequest("order_3", JsonSerializer.SerializeToUtf8Bytes(orderId.ToString()), StateOperationType.Upsert),
+                    new StateTransactionRequest("order_2", null, StateOperationType.Delete)
+                };
+            client.
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
